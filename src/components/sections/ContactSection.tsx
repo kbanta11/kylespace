@@ -28,7 +28,7 @@ export function ContactSection() {
                 <GridItem colSpan={1}>
                     <HStack>
                         <Image src='/assets/icons/LinkedIN.png' />
-                        <Link href='https://web3van.com' isExternal
+                        <Link href='https://linkedin/in/kylebanta.com' isExternal
                             fontWeight={'bold'} color={'blue.500'}
                         >view my LinkedIn</Link>
                     </HStack>
@@ -36,7 +36,7 @@ export function ContactSection() {
                 <GridItem colSpan={1}>
                     <HStack>
                         <Image src='/assets/icons/Twitter.png' />
-                        <Link href='https://web3van.com' isExternal
+                        <Link href='https://twitter.com/kbanta11' isExternal
                             fontWeight={'bold'} color={'blue.500'}
                         >find me on Twitter</Link>
                     </HStack>
@@ -44,7 +44,7 @@ export function ContactSection() {
                 <GridItem colSpan={1}>
                     <HStack>
                         <Image src='/assets/icons/Github.png' />
-                        <Link href='https://web3van.com' isExternal
+                        <Link href='https://github.com/kbanta11' isExternal
                             fontWeight={'bold'} color={'blue.500'}
                         >checkout my Github</Link>
                     </HStack>
