@@ -1,6 +1,5 @@
 import React from 'react';
-import { Box, Text, Grid, 
-    GridItem, Image, HStack, Link } from '@chakra-ui/react';
+import { Box, Text, Grid, GridItem } from '@chakra-ui/react';
 
 export function InterestsSection() {
     return (

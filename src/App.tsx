@@ -1,7 +1,6 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import { Grid, GridItem, Text, Heading, Box, Center, Flex, HStack, Link, Select, Spacer } from '@chakra-ui/react';
+import { Grid, GridItem, Text, Heading, Box, Center, Flex, Select, Spacer } from '@chakra-ui/react';
 import { NameSection } from './components/sections/NameSection';
 import { ContactSection } from './components/sections/ContactSection';
 import { TopProjectSection } from './components/sections/TopProjectSection';

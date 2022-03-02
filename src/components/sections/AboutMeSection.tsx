@@ -1,6 +1,5 @@
 import React from 'react';
-import { Box, Text, Image, SimpleGrid, Stack,
- Link, Center } from '@chakra-ui/react';
+import { Box, Text } from '@chakra-ui/react';
 
 export function AboutMeSection() {
     return (
