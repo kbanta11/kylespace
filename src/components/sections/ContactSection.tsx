@@ -28,7 +28,7 @@ export function ContactSection() {
                 <GridItem colSpan={1}>
                     <HStack>
                         <Image src='/assets/icons/LinkedIN.png' />
-                        <Link href='https://linkedin/in/kylebanta.com' isExternal
+                        <Link href='https://linkedin.com/in/kylebanta.com' isExternal
                             fontWeight={'bold'} color={'blue.500'}
                         >view my LinkedIn</Link>
                     </HStack>
