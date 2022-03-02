@@ -30,7 +30,7 @@ export function TopProjectSection() {
                     </Link>
                 </Box>
                 <Box verticalAlign={'bottom'}>
-                    <Link href='https://joincompany.com' isExternal>
+                    <Link href='https://joincompany.io' isExternal>
                         <Center>
                             <Stack fontSize={['14px', '16px', '18px']}>
                                 <Text textAlign={'center'}>The Company App</Text>
@@ -44,7 +44,7 @@ export function TopProjectSection() {
                         <Center>
                             <Stack fontSize={['14px', '16px', '18px']}>
                                 <Text textAlign={'center'}>KLXTN.xyz</Text>
-                                <Image boxSize={'10em'} src='/assets/images/nevertrustarobot.png' />
+                                <Image boxSize={'10em'} src='/assets/images/klxtn.png' fit={'cover'}/>
                             </Stack>
                         </Center>
                     </Link>
