@@ -50,7 +50,7 @@ export function getTheme(themeString: string) {
     theme.value = themeString;
     switch(themeString) {
         case 'surfs-up':
-            theme.bgImg = 'assets/images/surfboard.jpg';
+            theme.bgImg = 'assets/images/surfboard.png';
             theme.aboutMeBgColor = '#FFEAB2';
             theme.moodTextColor = 'white';
             theme.projectTitleTextColorSmall = 'white';
@@ -73,7 +73,7 @@ export function getTheme(themeString: string) {
         case 'nerd-mode':
             theme.nameColor = 'white';
             theme.moodTextColor = 'white';
-            theme.bgImg = 'assets/images/nerd.jpg';
+            theme.bgImg = 'assets/images/nerd.png';
             theme.projectBannerColor = 'Chartreuse';
             theme.projectBannerTextColor = 'Magenta';
             theme.projectTitleTextColorBig = 'white';
@@ -91,7 +91,7 @@ export function getTheme(themeString: string) {
             theme.interestsTopicTextColor = 'darkgreen'
             break;
         case 'lets-hike':
-            theme.bgImg = 'assets/images/hiking.jpg';
+            theme.bgImg = 'assets/images/hiking.png';
             theme.aboutMeBgColor = '#FFEAB280'
             break;
         default:
