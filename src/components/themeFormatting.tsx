@@ -52,8 +52,8 @@ export function getTheme(themeString: string) {
     theme.value = themeString;
     switch(themeString) {
         case 'surfs-up':
-            theme.bgImg = 'assets/images/surfboard.png';
-            theme.bgImgSmall = 'assets/images/surfboard-min.png'
+            theme.bgImg = 'assets/images/surfboard.jpg';
+            theme.bgImgSmall = 'assets/images/surfboard.jpg'
             theme.aboutMeBgColor = '#FFEAB2';
             theme.moodTextColor = 'white';
             theme.projectTitleTextColorSmall = 'white';
@@ -96,8 +96,8 @@ export function getTheme(themeString: string) {
             theme.interestsTopicTextColor = 'darkgreen'
             break;
         case 'lets-hike':
-            theme.bgImg = 'assets/images/hiking.png';
-            theme.bgImgSmall = 'assets/images/hiking-min.png';
+            theme.bgImg = 'assets/images/hiking.jpg';
+            theme.bgImgSmall = 'assets/images/hiking.jpg';
             theme.aboutMeBgColor = '#FFEAB280'
             break;
         default:
