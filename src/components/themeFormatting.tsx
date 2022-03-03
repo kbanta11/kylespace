@@ -1,6 +1,7 @@
 export class ThemeFormat {
     value: string;
     bgImg: string;
+    bgImgSmall: string;
     nameColor: string;
     aboutMeBgColor: string;
     aboutMeTextColor: string;
@@ -23,6 +24,7 @@ export class ThemeFormat {
     constructor() {
         this.value='regular';
         this.bgImg = '';
+        this.bgImgSmall = '';
         this.nameColor = '#000000';
         this.aboutMeBgColor = '#00000000';
         this.aboutMeBannerColor = '#FFEAB2';
@@ -51,6 +53,7 @@ export function getTheme(themeString: string) {
     switch(themeString) {
         case 'surfs-up':
             theme.bgImg = 'assets/images/surfboard.png';
+            theme.bgImgSmall = 'assets/images/surfboard-min.png'
             theme.aboutMeBgColor = '#FFEAB2';
             theme.moodTextColor = 'white';
             theme.projectTitleTextColorSmall = 'white';
@@ -62,6 +65,7 @@ export function getTheme(themeString: string) {
             theme.projectTitleTextColorSmall = 'white';
             theme.projectTitleTextColorBig = 'white';
             theme.bgImg = 'assets/images/titans.png';
+            theme.bgImgSmall = theme.bgImg;
             theme.projectBannerColor = '#86D3FF';
             theme.projectBannerTextColor = '#de1010';
             theme.aboutMeBannerColor = '#86D3FF';
@@ -74,6 +78,7 @@ export function getTheme(themeString: string) {
             theme.nameColor = 'white';
             theme.moodTextColor = 'white';
             theme.bgImg = 'assets/images/nerd.png';
+            theme.bgImgSmall = 'assets/images/nerd-min.png';
             theme.projectBannerColor = 'Chartreuse';
             theme.projectBannerTextColor = 'Magenta';
             theme.projectTitleTextColorBig = 'white';
@@ -92,6 +97,7 @@ export function getTheme(themeString: string) {
             break;
         case 'lets-hike':
             theme.bgImg = 'assets/images/hiking.png';
+            theme.bgImgSmall = 'assets/images/hiking-min.png';
             theme.aboutMeBgColor = '#FFEAB280'
             break;
         default:

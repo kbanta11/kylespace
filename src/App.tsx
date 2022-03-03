@@ -25,7 +25,7 @@ function App() {
   
 
   return (
-    <Center maxWidth={'100%'}  bgImage={theme.bgImg} bgSize={'cover'} bgPos={'center center'}>
+    <Center maxWidth={'100%'}  bgImage={[theme.bgImgSmall, theme.bgImgSmall, theme.bgImg]} bgSize={'cover'} bgPos={'center center'}>
       <Box>
         <Box backgroundColor={'#007CEE'} color={'white'} textAlign={'left'} verticalAlign={'bottom'} paddingStart={2}>
             <Flex alignItems={'end'} paddingBottom={'5px'}>
