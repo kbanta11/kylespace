@@ -4,15 +4,18 @@ import { ChakraProvider } from '@chakra-ui/react';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { RecoilRoot } from 'recoil';
 
 ReactDOM.render(
-  <ChakraProvider>
-    <React.StrictMode>
-      <div className='centerApp'>
-        <App />
-      </div>
-    </React.StrictMode>
-  </ChakraProvider>,
+  <RecoilRoot>
+    <ChakraProvider>
+      <React.StrictMode>
+        <div className='centerApp'>
+          <App />
+        </div>
+      </React.StrictMode>
+    </ChakraProvider>
+  </RecoilRoot>,
   document.getElementById('root')
 );
 

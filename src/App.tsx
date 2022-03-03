@@ -1,15 +1,31 @@
 import React from 'react';
 import './App.css';
+import { atom, useRecoilValue, useSetRecoilState } from 'recoil'
 import { Grid, GridItem, Text, Heading, Box, Center, Flex, Select, Spacer } from '@chakra-ui/react';
 import { NameSection } from './components/sections/NameSection';
 import { ContactSection } from './components/sections/ContactSection';
 import { TopProjectSection } from './components/sections/TopProjectSection';
 import { AboutMeSection } from './components/sections/AboutMeSection';
 import { InterestsSection } from './components/sections/InterestsSection';
+import { getTheme, ThemeFormat } from './components/themeFormatting';
+
+export const themeState = atom({
+  key: 'themeState',
+  default: new ThemeFormat()
+});
 
 function App() {
+  const theme = useRecoilValue(themeState);
+  const setTheme = useSetRecoilState(themeState);
+
+  const onChange =(event: React.ChangeEvent<HTMLSelectElement>) => {
+    setTheme((oldTheme) => getTheme( event.target.value) );
+    console.log('New Theme: %s', event.target.value);
+  };
+  
+
   return (
-    <Center maxWidth={'100%'}>
+    <Center maxWidth={'100%'}  bgImage={theme.bgImg} bgSize={'cover'} bgPos={'center center'}>
       <Box>
         <Box backgroundColor={'#007CEE'} color={'white'} textAlign={'left'} verticalAlign={'bottom'} paddingStart={2}>
             <Flex alignItems={'end'} paddingBottom={'5px'}>
@@ -20,12 +36,12 @@ function App() {
               <Spacer />
               <Box paddingEnd={2} verticalAlign={'bottom'}>
                 <Text fontSize={'small'}>Change Theme: </Text>
-                  <Select size={'xs'} color={'black'} bg={'white'}>
-                    <option value={'Regular'}>Regular</option>
-                    <option value={'Surf\'s Up'}>Surf's Up</option>
-                    <option value={'Titan Up'}>Titan Up</option>
-                    <option value={'Nerd Mode'}>Nerd Mode</option>
-                    <option value={'Let\'s Hike'}>Let's Hike</option>
+                  <Select size={'xs'} color={'black'} bg={'white'} value={theme.value} onChange={onChange}>
+                    <option value={'regular'}>Regular</option>
+                    <option value={'surfs-up'}>Surf's Up</option>
+                    <option value={'titan-up'}>Titan Up</option>
+                    <option value={'nerd-mode'}>Nerd Mode</option>
+                    <option value={'lets-hike'}>Let's Hike</option>
                   </Select>
               </Box>
             </Flex>
