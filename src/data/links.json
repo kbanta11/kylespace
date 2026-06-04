@@ -16,6 +16,12 @@
       "url": "https://playgeo.golf",
       "description": "Play golf around the globe. 3 holes, hit a ball from city to city and test your geography knowledge.",
       "icon": "/link-icons/geogolf.png"
+    },
+    {
+      "name": "Benji - App Blocker for Better Sleep",
+      "url": "https://benjisleeps.com",
+      "description": "Benji helps you fix your sleep, keep a consistent bedtime routine, and stop the late night doomscrolling by blocking distracting apps when you should be in bed.",
+      "icon": "/link-icons/benji-app-blocker-for-better-sleep.png"
     }
   ]
 }
