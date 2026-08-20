@@ -2,11 +2,12 @@ import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { useTheme } from '../theme/ThemeContext';
 import { THEMES, THEME_ORDER, ThemeId } from '../theme/themes';
+import { showPhotos } from '../data/photos';
 
 const TABS = [
   { to: '/', label: 'profile', end: true },
   { to: '/work', label: 'work' },
-  { to: '/photos', label: 'photos' },
+  ...(showPhotos ? [{ to: '/photos', label: 'photos' }] : []),
   { to: '/resume', label: 'resume' },
   { to: '/contact', label: 'contact' },
 ];

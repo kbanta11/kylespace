@@ -8,6 +8,7 @@ import { WorkPage } from './pages/WorkPage';
 import { PhotosPage } from './pages/PhotosPage';
 import { ResumePage } from './pages/ResumePage';
 import { ContactPage } from './pages/ContactPage';
+import { showPhotos } from './data/photos';
 
 function App() {
   return (
@@ -20,7 +21,11 @@ function App() {
             <Route path='/work' element={<WorkPage />}>
               <Route path=':slug' element={<ProjectDialog />} />
             </Route>
-            <Route path='/photos' element={<PhotosPage />} />
+            {/* the page is still built; showPhotos just gates the way in */}
+            <Route
+              path='/photos'
+              element={showPhotos ? <PhotosPage /> : <Navigate to='/' replace />}
+            />
             <Route path='/resume' element={<ResumePage />} />
             <Route path='/contact' element={<ContactPage />} />
             {/* the old link-in-bio page now lives inside Work */}
