@@ -30,7 +30,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "add-link": "node scripts/add-link.js"
+    "add-link": "node scripts/add-link.js",
+    "make-favicon": "node scripts/make-favicon.js"
   },
   "eslintConfig": {
     "extends": [
@@ -49,5 +50,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "sharp": "^0.35.3"
   }
 }

@@ -1,0 +1,1241 @@
+/* ==========================================================================
+   kylespace — MySpace homage, rebuilt on one token set.
+   Every value here reads var(--token) from the theme applied to .ks-root.
+   See src/theme/themes.ts for the token contract.
+   ========================================================================== */
+
+:root {
+  --ks-shadow: 0 1px 2px rgba(10, 30, 60, 0.06), 0 10px 30px rgba(10, 30, 60, 0.09);
+  --ks-tahoma: Tahoma, Verdana, sans-serif;
+  --ks-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --ks-stripes: repeating-linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.05) 0 6px,
+    rgba(0, 0, 0, 0) 6px 12px
+  );
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #0b1622;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  font-family: inherit;
+  border: 0;
+  background: none;
+}
+
+/* Base anchor treatment. Deliberately an element selector (specificity 0,0,1)
+   so any component class on an anchor — cards, rows, buttons, tabs — wins and
+   keeps its own ink. Only bare prose links land here. */
+a {
+  color: var(--link, #0f63c6);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--link, #0f63c6);
+  text-decoration: underline;
+}
+
+/* --------------------------------------------------------------------------
+   Shell
+   -------------------------------------------------------------------------- */
+
+.ks-root {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font, 'Archivo', system-ui, sans-serif);
+  color: var(--ink, #14181d);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* The background photo lives on its own fixed layer rather than using
+   background-attachment: fixed, which iOS Safari does not honor. */
+.ks-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: var(--bg, linear-gradient(180deg, #eaf1f9, #dae6f4));
+}
+
+.ks-container {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.ks-main {
+  flex: 1;
+  max-width: 1180px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 26px 20px 80px;
+}
+
+.ks-page {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.ks-cols {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.ks-rail {
+  flex: 1 1 320px;
+  max-width: 360px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ks-col-main {
+  flex: 1 1 520px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ks-col-side {
+  flex: 1 1 300px;
+  max-width: 380px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+@media (max-width: 720px) {
+  .ks-rail {
+    max-width: none;
+  }
+  .ks-col-side {
+    max-width: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Header — chrome bar, theme switcher, nav strip
+   -------------------------------------------------------------------------- */
+
+.ks-header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: var(--chrome, #0b4b9c);
+  color: #fff;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.14), 0 6px 20px rgba(6, 20, 40, 0.28);
+  transition: background-color 0.35s ease;
+}
+
+.ks-header-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 16px 20px 12px;
+  display: flex;
+  align-items: flex-end;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+
+.ks-wordmark {
+  color: #fff;
+  text-decoration: none;
+}
+
+.ks-wordmark:hover {
+  color: #fff;
+  text-decoration: none;
+}
+
+.ks-wordmark-name {
+  font-family: 'Archivo', system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 27px;
+  line-height: 1;
+  letter-spacing: -0.025em;
+}
+
+.ks-wordmark-sub {
+  margin-top: 6px;
+  font: 600 10px/1 var(--ks-tahoma);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.66;
+}
+
+.ks-header-spacer {
+  flex: 1 1 40px;
+}
+
+.ks-themes {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  align-items: flex-start;
+}
+
+.ks-themes-label {
+  font: 600 10px/1 var(--ks-tahoma);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.66;
+}
+
+.ks-pills {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.ks-pill {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  white-space: nowrap;
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.86);
+  font: 600 12px/1 inherit;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.2s ease, color 0.2s ease;
+}
+
+.ks-pill:hover {
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+.ks-pill.is-active {
+  background: #fff;
+  color: var(--chrome, #0b4b9c);
+  border-color: #fff;
+}
+
+/* Nerd Mode inverts — white-on-near-black reads as a hole in the chrome */
+.ks-root[data-theme='nerd'] .ks-pill.is-active {
+  background: #7cff9b;
+  color: #07150c;
+  border-color: #7cff9b;
+}
+
+.ks-pill-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 99px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
+  flex: none;
+}
+
+.ks-nav {
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.ks-nav-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  gap: 2px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.ks-nav-inner::-webkit-scrollbar {
+  display: none;
+}
+
+.ks-tab {
+  padding: 12px 16px;
+  border-radius: 9px 9px 0 0;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.72);
+  font: 700 11px/1 var(--ks-tahoma);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.ks-tab:hover {
+  color: #fff;
+  text-decoration: none;
+}
+
+.ks-tab.is-active {
+  background: var(--cta, #0f63c6);
+  color: #fff;
+}
+
+/* --------------------------------------------------------------------------
+   Card — the primitive. Everything on the site is one of these.
+   -------------------------------------------------------------------------- */
+
+.ks-card {
+  background: var(--surface, #fff);
+  border: 1px solid var(--border, #d7e2ee);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: var(--ks-shadow);
+  transition: background-color 0.35s ease, border-color 0.15s ease;
+}
+
+/* a card that is itself a flex child of .ks-cols */
+.ks-card--wide {
+  flex: 1 1 480px;
+  min-width: 0;
+}
+
+.ks-card--side {
+  flex: 1 1 300px;
+  max-width: 380px;
+  min-width: 0;
+}
+
+@media (max-width: 720px) {
+  .ks-card--side {
+    max-width: none;
+  }
+}
+
+.ks-card-head {
+  background: var(--accent, #0f63c6);
+  color: var(--accent-ink, #fff);
+  padding: 10px 14px;
+  font: 700 10px/1 var(--ks-tahoma);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  transition: background-color 0.35s ease;
+}
+
+.ks-card-head-title {
+  margin: 0;
+  font: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+}
+
+.ks-card-head--split {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.ks-card-head-action {
+  font: 700 10px/1 var(--ks-tahoma);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-ink, #fff);
+  opacity: 0.8;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.ks-card-head-action:hover {
+  opacity: 1;
+  color: var(--accent-ink, #fff);
+  text-decoration: none;
+}
+
+.ks-card-body {
+  padding: 18px;
+}
+
+.ks-rows {
+  display: flex;
+  flex-direction: column;
+}
+
+.ks-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 13px 15px;
+  border-bottom: 1px solid var(--border, #d7e2ee);
+  text-decoration: none;
+  color: inherit;
+}
+
+.ks-rows > .ks-row:last-child,
+.ks-rows > *:last-child .ks-row {
+  border-bottom: 0;
+}
+
+a.ks-row:hover {
+  background: var(--soft, #f2f7fd);
+  text-decoration: none;
+  color: inherit;
+}
+
+.ks-row-label {
+  font-weight: 600;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.ks-row-value {
+  font-family: var(--ks-mono);
+  font-size: 11px;
+  color: var(--muted, #5b6672);
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------------------------------
+   Type
+   -------------------------------------------------------------------------- */
+
+.ks-h1 {
+  margin: 0;
+  font-size: 40px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--name, #0d1b2a);
+}
+
+.ks-h1--contact {
+  font-size: 44px;
+  letter-spacing: -0.035em;
+  line-height: 1.03;
+  max-width: 22ch;
+}
+
+.ks-lede {
+  margin: 8px 0 0;
+  font-size: 15px;
+  color: var(--name, #0d1b2a);
+  opacity: 0.8;
+  max-width: 60ch;
+}
+
+.ks-micro {
+  font: 500 10px/1 var(--ks-mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted, #5b6672);
+  white-space: nowrap;
+}
+
+.ks-micro--tahoma {
+  font: 700 10px/1 var(--ks-tahoma);
+  letter-spacing: 0.18em;
+}
+
+.ks-meta {
+  font-family: var(--ks-mono);
+  font-size: 11px;
+  color: var(--muted, #5b6672);
+  white-space: nowrap;
+}
+
+.ks-body {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.7;
+  text-wrap: pretty;
+}
+
+.ks-body-sm {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+/* --------------------------------------------------------------------------
+   Buttons
+   -------------------------------------------------------------------------- */
+
+.ks-btn {
+  display: inline-block;
+  padding: 13px 18px;
+  border-radius: 10px;
+  font: 700 11px/1.3 var(--ks-tahoma);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.ks-btn:hover {
+  text-decoration: none;
+}
+
+.ks-btn--lg {
+  padding: 15px 20px;
+  border-radius: 11px;
+}
+
+.ks-btn--cta {
+  background: var(--cta, #0f63c6);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+}
+
+.ks-btn--cta:hover {
+  opacity: 0.9;
+  color: #fff;
+}
+
+.ks-btn--ghost {
+  background: var(--surface, #fff);
+  border: 1px solid var(--border, #d7e2ee);
+  color: var(--ink, #14181d);
+}
+
+.ks-btn--ghost:hover {
+  border-color: var(--accent, #0f63c6);
+  color: var(--ink, #14181d);
+}
+
+/* --------------------------------------------------------------------------
+   Profile — identity card, blurbs, top projects, top 8
+   -------------------------------------------------------------------------- */
+
+.ks-headshot {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: center 22%;
+}
+
+.ks-identity {
+  padding: 16px 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ks-identity-name {
+  margin: 0;
+  font-weight: 800;
+  font-size: 26px;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.ks-identity-sub {
+  margin-top: 5px;
+  font-size: 13px;
+  color: var(--muted, #5b6672);
+}
+
+.ks-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--ks-mono);
+  font-size: 11px;
+  color: var(--muted, #5b6672);
+}
+
+.ks-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 99px;
+  background: #22b455;
+  flex: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ks-status-dot {
+    animation: ks-pulse 2.4s ease-in-out infinite;
+  }
+}
+
+@keyframes ks-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.ks-divider {
+  height: 1px;
+  background: var(--border, #d7e2ee);
+}
+
+.ks-mood-value {
+  margin-top: 6px;
+  font-weight: 600;
+  font-size: 17px;
+}
+
+.ks-blurb {
+  padding: 14px 15px;
+  border-bottom: 1px solid var(--border, #d7e2ee);
+}
+
+.ks-rows > .ks-blurb:last-child {
+  border-bottom: 0;
+}
+
+.ks-blurb p {
+  margin: 8px 0 0;
+}
+
+.ks-about {
+  padding: 20px 22px 22px;
+  max-width: 70ch;
+}
+
+.ks-about-lead {
+  margin: 0;
+  font-size: 19px;
+  line-height: 1.45;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-wrap: pretty;
+}
+
+.ks-about p + p {
+  margin-top: 12px;
+}
+
+.ks-about-lead + p {
+  margin-top: 14px;
+}
+
+/* project rows on the profile */
+.ks-project-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 13px 15px;
+  border-bottom: 1px solid var(--border, #d7e2ee);
+  text-decoration: none;
+  color: inherit;
+}
+
+.ks-rows > .ks-project-row:last-child {
+  border-bottom: 0;
+}
+
+a.ks-project-row:hover {
+  background: var(--soft, #f2f7fd);
+  text-decoration: none;
+  color: inherit;
+}
+
+.ks-project-row-thumb {
+  width: 132px;
+  flex: none;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: 9px;
+  border: 1px solid var(--border, #d7e2ee);
+  background: var(--soft, #f2f7fd);
+}
+
+.ks-project-row-thumb--slot {
+  background: var(--ks-stripes), var(--soft, #f2f7fd);
+}
+
+.ks-project-row-text {
+  min-width: 0;
+  flex: 1;
+}
+
+.ks-project-row-title {
+  font-weight: 700;
+  font-size: 14.5px;
+}
+
+.ks-project-row-desc {
+  margin: 4px 0 0;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--muted, #5b6672);
+}
+
+.ks-chevron {
+  flex: none;
+  font-size: 17px;
+  color: var(--muted, #5b6672);
+}
+
+/* Always two rows of four. Not auto-fit: at wide widths that reflowed to 5+3,
+   which breaks the Top 8 read. */
+.ks-top8-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+/* Four 110px tiles stop fitting on a phone, so drop to 2x4 there. */
+@media (max-width: 560px) {
+  .ks-top8-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.ks-top8-person {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ks-top8-tile {
+  aspect-ratio: 1 / 1;
+  border-radius: 12px;
+  border: 1px solid var(--border, #d7e2ee);
+  background: var(--soft, #f2f7fd);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+  color: var(--accent, #0f63c6);
+  overflow: hidden;
+}
+
+/* the accent is the backdrop in Titan Up, so initials need the CTA instead */
+.ks-root[data-theme='titans'] .ks-top8-tile {
+  color: var(--cta, #4b92db);
+}
+
+.ks-top8-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ks-top8-name {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.ks-top8-note {
+  font-family: var(--ks-mono);
+  font-size: 9.5px;
+  color: var(--muted, #5b6672);
+  line-height: 1.3;
+  margin-top: -4px;
+}
+
+.ks-footnote {
+  margin: 16px 0 0;
+  font-size: 12.5px;
+  color: var(--muted, #5b6672);
+}
+
+/* --------------------------------------------------------------------------
+   Work
+   -------------------------------------------------------------------------- */
+
+.ks-work-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 18px;
+}
+
+.ks-project-card {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+}
+
+a.ks-project-card:hover {
+  border-color: var(--accent, #0f63c6);
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Titan Up's accent matches its chrome, so hover would read as no change */
+.ks-root[data-theme='titans'] a.ks-project-card:hover {
+  border-color: var(--cta, #4b92db);
+}
+
+.ks-project-thumb {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  background: var(--soft, #f2f7fd);
+}
+
+.ks-project-thumb--contain {
+  object-fit: contain;
+}
+
+.ks-slot {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  background: var(--ks-stripes), var(--soft, #f2f7fd);
+  display: flex;
+  align-items: flex-end;
+  padding: 12px;
+}
+
+.ks-slot-label {
+  font-family: var(--ks-mono);
+  font-size: 11px;
+  color: var(--muted, #5b6672);
+}
+
+.ks-project-body {
+  padding: 16px 17px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.ks-project-title-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.ks-project-title {
+  font-weight: 700;
+  font-size: 17px;
+  letter-spacing: -0.01em;
+}
+
+.ks-project-tag {
+  font-family: var(--ks-mono);
+  font-size: 10px;
+  color: var(--muted, #5b6672);
+  white-space: nowrap;
+}
+
+.ks-project-desc {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--muted, #5b6672);
+  text-wrap: pretty;
+}
+
+.ks-project-desc--todo {
+  font-family: var(--ks-mono);
+  font-size: 12px;
+}
+
+/* --------------------------------------------------------------------------
+   Project detail overlay — /work/:slug
+
+   A native <dialog>, so focus trapping, Esc and the top layer come from the
+   platform. It still sits inside .ks-root in the DOM, so the theme custom
+   properties inherit normally even though it paints above everything.
+   -------------------------------------------------------------------------- */
+
+.ks-dialog {
+  width: min(560px, calc(100vw - 28px));
+  max-height: min(86vh, 780px);
+  padding: 0;
+  border: 1px solid var(--border, #d7e2ee);
+  border-radius: 14px;
+  background: var(--surface, #fff);
+  color: var(--ink, #14181d);
+  box-shadow: 0 24px 64px rgba(6, 16, 30, 0.34);
+  overflow: hidden;
+}
+
+.ks-dialog::backdrop {
+  background: rgba(6, 16, 30, 0.55);
+}
+
+/* the same uppercase strip every card wears */
+.ks-dialog-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: var(--accent, #0f63c6);
+  color: var(--accent-ink, #fff);
+  padding: 10px 10px 10px 14px;
+  font: 700 10px/1 var(--ks-tahoma);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.ks-dialog-title {
+  margin: 0;
+  font: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+}
+
+.ks-dialog-close {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font-size: 13px;
+  line-height: 1;
+  padding: 5px 7px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.ks-dialog-close:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.ks-dialog-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px 17px 18px;
+  /* the head stays put; only the content scrolls on a short viewport */
+  max-height: calc(min(86vh, 780px) - 34px);
+  overflow-y: auto;
+}
+
+.ks-dialog-thumb {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: 10px;
+  background: var(--soft, #f2f7fd);
+}
+
+.ks-dialog-thumb--contain {
+  object-fit: contain;
+}
+
+.ks-dialog-bullets {
+  margin: 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--muted, #5b6672);
+  text-wrap: pretty;
+}
+
+.ks-dialog-bullet--todo {
+  font-family: var(--ks-mono);
+  font-size: 12px;
+  list-style: none;
+  margin-left: -18px;
+}
+
+.ks-dialog-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 2px;
+}
+
+/* status aside — deliberately quieter than a bullet, and set off by a rule */
+.ks-dialog-note {
+  margin: 0;
+  padding-top: 10px;
+  border-top: 1px solid var(--border, #d7e2ee);
+  align-self: stretch;
+  font-family: var(--ks-mono);
+  font-size: 11.5px;
+  color: var(--muted, #5b6672);
+}
+
+.ks-dialog-secondary {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--link, #0f63c6);
+  text-decoration: none;
+}
+
+.ks-dialog-secondary:hover {
+  text-decoration: underline;
+}
+
+.ks-dialog-nolink {
+  font-family: var(--ks-mono);
+  font-size: 11px;
+  color: var(--muted, #5b6672);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ks-dialog[open] {
+    animation: ks-dialog-in 0.16s ease-out;
+  }
+}
+
+@keyframes ks-dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Photos
+   -------------------------------------------------------------------------- */
+
+.ks-photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.ks-photo-card {
+  padding: 10px;
+}
+
+.ks-photo-frame {
+  aspect-ratio: 4 / 3;
+  border-radius: 9px;
+  overflow: hidden;
+  background: var(--ks-stripes), var(--soft, #f2f7fd);
+  display: flex;
+  align-items: flex-end;
+  padding: 12px;
+}
+
+.ks-photo-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ks-photo-caption {
+  margin: 10px 2px 2px;
+  font-family: var(--ks-mono);
+  font-size: 11px;
+  color: var(--muted, #5b6672);
+}
+
+/* --------------------------------------------------------------------------
+   Resume
+   -------------------------------------------------------------------------- */
+
+.ks-page-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.ks-role {
+  padding: 18px;
+  border-bottom: 1px solid var(--border, #d7e2ee);
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.ks-role-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+
+.ks-role-title {
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: -0.01em;
+}
+
+.ks-role-org {
+  font-weight: 600;
+  color: var(--muted, #5b6672);
+}
+
+.ks-role-bullets {
+  margin: 0;
+  padding-left: 17px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--muted, #5b6672);
+}
+
+.ks-role-bullets li {
+  text-wrap: pretty;
+}
+
+.ks-earlier {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.ks-earlier-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+
+.ks-earlier-title {
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.ks-earlier-org {
+  font-weight: 500;
+  color: var(--muted, #5b6672);
+}
+
+.ks-earlier-dates {
+  font-family: var(--ks-mono);
+  font-size: 10.5px;
+  color: var(--muted, #5b6672);
+  white-space: nowrap;
+}
+
+.ks-stack-body {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ks-stack-group-label {
+  margin-bottom: 9px;
+}
+
+.ks-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.ks-chip {
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: var(--soft, #f2f7fd);
+  border: 1px solid var(--border, #d7e2ee);
+  font-size: 12.5px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.ks-education {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.ks-education-school {
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.ks-education-degree {
+  font-size: 13.5px;
+  color: var(--muted, #5b6672);
+  line-height: 1.5;
+}
+
+.ks-education-meta {
+  font-family: var(--ks-mono);
+  font-size: 11px;
+  color: var(--muted, #5b6672);
+  margin-top: 3px;
+}
+
+/* --------------------------------------------------------------------------
+   Contact
+   -------------------------------------------------------------------------- */
+
+.ks-contact-main {
+  flex: 1 1 420px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.ks-contact-copy {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--name, #0d1b2a);
+  opacity: 0.85;
+  max-width: 52ch;
+}
+
+.ks-btn-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* --------------------------------------------------------------------------
+   Footer
+   -------------------------------------------------------------------------- */
+
+.ks-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(6, 18, 32, 0.28);
+  backdrop-filter: blur(3px);
+}
+
+.ks-footer-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 18px 20px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  font: 500 11px/1.6 var(--ks-mono);
+  color: rgba(255, 255, 255, 0.7);
+}
+
+:focus-visible {
+  outline: 2px solid var(--cta, #0f63c6);
+  outline-offset: 2px;
+}
+
+.ks-header :focus-visible {
+  outline-color: #fff;
+}
+
+/* Small screens: the 40px page headings get tight against the container edge */
+@media (max-width: 480px) {
+  .ks-h1 {
+    font-size: 32px;
+  }
+  .ks-h1--contact {
+    font-size: 34px;
+  }
+  .ks-project-row-thumb {
+    width: 96px;
+  }
+}

@@ -8,7 +8,8 @@ const readline = require('readline');
 const { URL } = require('url');
 
 const ROOT = path.resolve(__dirname, '..');
-const LINKS_JSON = path.join(ROOT, 'src', 'data', 'links.json');
+const PROJECTS_TS = path.join(ROOT, 'src', 'data', 'projects.ts');
+const INSERT_MARKER = '  // ks:add-link';
 const ICON_DIR = path.join(ROOT, 'public', 'link-icons');
 const ICON_PUBLIC_PREFIX = '/link-icons';
 
@@ -185,6 +186,7 @@ function parseArgs(argv) {
     if (a === '--name') out.name = argv[++i];
     else if (a === '--url') out.url = argv[++i];
     else if (a === '--description' || a === '--desc') out.description = argv[++i];
+    else if (a === '--status') out.status = argv[++i];
     else if (a === '--help' || a === '-h') out.help = true;
   }
   return out;
@@ -192,11 +194,49 @@ function parseArgs(argv) {
 
 function printHelp() {
   console.log(`
-kylespace add-link
+kylespace add-link — appends a project to src/data/projects.ts
 
 Interactive:   npm run add-link
-Non-interactive: npm run add-link -- --name "GitHub" --url "https://github.com/kbanta11" [--description "code"]
+Non-interactive: npm run add-link -- --name "GeoGolf" --url "https://playgeo.golf" [--description "..."] [--status live]
+
+--status is one of: live (default), unreleased, archive
 `);
+}
+
+/** TypeScript string literal with single quotes. */
+function tsString(value) {
+  return `'${String(value).replace(/\\/g, '\\\\').replace(/'/g, "\\'")}'`;
+}
+
+function renderProjectEntry({ slug, title, status, url, description, image }) {
+  const lines = [
+    '  {',
+    `    slug: ${tsString(slug)},`,
+    `    title: ${tsString(title)},`,
+    `    status: ${tsString(status)},`,
+  ];
+  if (url) lines.push(`    url: ${tsString(url)},`);
+  lines.push(`    description: ${tsString(description || '↳ describe this one in a sentence')},`);
+  if (image) {
+    lines.push(`    image: ${tsString(image)},`);
+    lines.push("    imageFit: 'cover',");
+  } else {
+    lines.push("    placeholderLabel: 'og image → logo fallback',");
+  }
+  lines.push('  },');
+  return lines.join('\n') + '\n';
+}
+
+function appendProject(entry) {
+  const source = fs.readFileSync(PROJECTS_TS, 'utf8');
+  const index = source.indexOf(INSERT_MARKER);
+  if (index === -1) {
+    throw new Error(
+      `Could not find the "${INSERT_MARKER}" marker in src/data/projects.ts — add it back inside the projects array, or add the entry by hand.`
+    );
+  }
+  const updated = source.slice(0, index) + renderProjectEntry(entry) + source.slice(index);
+  fs.writeFileSync(PROJECTS_TS, updated);
 }
 
 async function main() {
@@ -209,10 +249,16 @@ async function main() {
   let name = args.name;
   let url = args.url;
   let description = args.description || '';
+  const status = args.status || 'live';
+
+  if (!['live', 'unreleased', 'archive'].includes(status)) {
+    console.error(`Invalid --status "${status}". Use live, unreleased or archive.`);
+    process.exit(1);
+  }
 
   if (!name || !url) {
     const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
-    console.log('\n♡ kylespace — add a link ♡\n');
+    console.log('\n♡ kylespace — add a project ♡\n');
     if (!name) name = await ask(rl, 'Name: ');
     if (!url) url = await ask(rl, 'URL:  ');
     if (!description) description = await ask(rl, 'Description (optional, press enter to skip): ');
@@ -238,37 +284,39 @@ async function main() {
     process.exit(1);
   }
 
-  console.log(`\nFetching icon for ${parsed.hostname}…`);
+  const slug = slugify(name);
+
+  console.log(`\nFetching thumbnail for ${parsed.hostname}…`);
   const icon = await fetchBestIcon(url);
 
   let iconPublicPath;
   if (icon) {
     if (!fs.existsSync(ICON_DIR)) fs.mkdirSync(ICON_DIR, { recursive: true });
-    const slugBase = slugify(name);
-    let filename = `${slugBase}${icon.ext}`;
+    let filename = `${slug}${icon.ext}`;
     let i = 2;
     while (fs.existsSync(path.join(ICON_DIR, filename))) {
-      filename = `${slugBase}-${i}${icon.ext}`;
+      filename = `${slug}-${i}${icon.ext}`;
       i++;
     }
     fs.writeFileSync(path.join(ICON_DIR, filename), icon.buffer);
     iconPublicPath = `${ICON_PUBLIC_PREFIX}/${filename}`;
-    console.log(`Saved icon → public${iconPublicPath}`);
+    console.log(`Saved thumbnail → public${iconPublicPath}`);
   } else {
-    console.log('No icon found — will fall back to Google favicon at render time.');
+    console.log('No image found — the card will show the striped placeholder slot.');
   }
 
-  // Update links.json
-  const data = JSON.parse(fs.readFileSync(LINKS_JSON, 'utf8'));
-  const entry = { name, url };
-  if (description) entry.description = description;
-  if (iconPublicPath) entry.icon = iconPublicPath;
-  data.links = data.links || [];
-  data.links.push(entry);
-  fs.writeFileSync(LINKS_JSON, JSON.stringify(data, null, 2) + '\n');
+  appendProject({
+    slug,
+    title: name,
+    status,
+    url,
+    description,
+    image: iconPublicPath,
+  });
 
-  console.log(`\n✓ Added "${name}" → ${data.links.length} link(s) total.`);
-  console.log(`  Edit src/data/links.json directly to reorder or remove.\n`);
+  console.log(`\n✓ Added "${name}" to src/data/projects.ts.`);
+  console.log('  Edit that file directly to reorder, reword or remove it.');
+  console.log("  Thumbnails are 16:10 — check the crop on /work before shipping.\n");
 }
 
 main().catch((err) => {

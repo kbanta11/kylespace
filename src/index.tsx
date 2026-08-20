@@ -1,21 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { ChakraProvider } from '@chakra-ui/react';
-import './index.css';
+import './styles/kylespace.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { RecoilRoot } from 'recoil';
 
 ReactDOM.render(
-  <RecoilRoot>
-    <ChakraProvider>
-      <React.StrictMode>
-        <div className='centerApp'>
-          <App />
-        </div>
-      </React.StrictMode>
-    </ChakraProvider>
-  </RecoilRoot>,
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
   document.getElementById('root')
 );
 
