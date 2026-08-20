@@ -290,6 +290,103 @@ a:hover {
   color: #fff;
 }
 
+/* the mobile theme picker — hidden until the pills stop fitting */
+.ks-theme-select {
+  display: none;
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 8px 30px 8px 13px;
+  border-radius: 999px;
+  border: 1px solid #fff;
+  background-color: #fff;
+  color: var(--chrome, #0b4b9c);
+  font: 600 12px/1 inherit;
+  cursor: pointer;
+  /* chevron drawn inline so no request and no icon font */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5l5-5' fill='none' stroke='%230b4b9c' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 11px center;
+  background-size: 11px 7px;
+  /* keeps the native option list readable regardless of OS dark mode */
+  color-scheme: light;
+}
+
+/* --------------------------------------------------------------------------
+   Header on small screens
+
+   The five nav tabs used to overflow into a horizontal scroller, which hides
+   destinations behind a gesture nobody knows is there. Below this width they
+   become equal-width tabs that share the row instead.
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 640px) {
+  .ks-header-inner {
+    gap: 12px;
+    padding: 13px 16px 11px;
+    align-items: center;
+  }
+
+  .ks-header-spacer {
+    display: none;
+  }
+
+  .ks-wordmark-name {
+    font-size: 22px;
+  }
+
+  .ks-wordmark-sub {
+    margin-top: 4px;
+    font-size: 9px;
+  }
+
+  /* label beside the control rather than stacked above it, to save a row */
+  .ks-themes {
+    flex: 1 1 auto;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+
+  .ks-pills {
+    display: none;
+  }
+
+  .ks-theme-select {
+    display: block;
+  }
+
+  .ks-nav-inner {
+    padding: 0 8px;
+    gap: 0;
+  }
+
+  .ks-tab {
+    flex: 1 1 0;
+    min-width: 0;
+    text-align: center;
+    padding: 12px 2px;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    border-radius: 8px 8px 0 0;
+  }
+}
+
+/* narrow phones — trim the type again so five tabs still share one row */
+@media (max-width: 360px) {
+  .ks-themes-label {
+    display: none;
+  }
+}
+
+@media (max-width: 380px) {
+  .ks-tab {
+    font-size: 9px;
+    letter-spacing: 0.02em;
+    padding: 11px 1px;
+  }
+}
+
 /* --------------------------------------------------------------------------
    Card — the primitive. Everything on the site is one of these.
    -------------------------------------------------------------------------- */

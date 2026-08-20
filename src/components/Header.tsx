@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { useTheme } from '../theme/ThemeContext';
-import { THEMES, THEME_ORDER } from '../theme/themes';
+import { THEMES, THEME_ORDER, ThemeId } from '../theme/themes';
 
 const TABS = [
   { to: '/', label: 'profile', end: true },
@@ -28,6 +28,22 @@ export function Header() {
           <div className='ks-themes-label' id='ks-theme-label'>
             change theme
           </div>
+          {/* Five pills do not fit a phone. The same choice ships twice: pills on
+              desktop, a native select on mobile — CSS shows exactly one, so the
+              hidden one is out of the accessibility tree too. */}
+          <select
+            className='ks-theme-select'
+            aria-labelledby='ks-theme-label'
+            value={theme}
+            onChange={(event) => setTheme(event.target.value as ThemeId)}
+          >
+            {THEME_ORDER.map((id) => (
+              <option key={id} value={id}>
+                {THEMES[id].label}
+              </option>
+            ))}
+          </select>
+
           <div className='ks-pills' role='radiogroup' aria-labelledby='ks-theme-label'>
             {THEME_ORDER.map((id) => {
               const active = id === theme;
