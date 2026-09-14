@@ -35,23 +35,6 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    slug: 'benji',
-    title: 'Benji',
-    status: 'live',
-    url: 'https://benjisleeps.com',
-    description:
-      'Fixes your sleep by holding your bedtime routine: full alarms, a morning and dream journal, and app blocking until you wake up.',
-    shortDescription: 'Bedtime-routine tracker with full alarms and app blocking until morning',
-    bullets: [
-      "Sticking to a bedtime routine is the thing that actually gets you to sleep faster. Benji's job is making yours stick.",
-      'You journal at both ends of the night: dreams when you wake up, and how the morning actually went.',
-      "Your apps stay blocked until morning, so your phone can't be the reason you're up.",
-    ],
-    stack: ['React Native', 'Expo', 'TypeScript', 'RevenueCat', 'LocalStorage'],
-    image: '/link-icons/benji.webp',
-    imageFit: 'cover',
-  },
-  {
     slug: 'builder-battles',
     title: 'Builder Battles',
     status: 'live',
@@ -78,6 +61,23 @@ export const projects: Project[] = [
     image: '/link-icons/builder-battles.webp',
     imageFit: 'contain',
     imageBg: '#08080a',
+  },
+  {
+    slug: 'benji',
+    title: 'Benji',
+    status: 'live',
+    url: 'https://benjisleeps.com',
+    description:
+      'Fixes your sleep by holding your bedtime routine: full alarms, a morning and dream journal, and app blocking until you wake up.',
+    shortDescription: 'Bedtime-routine tracker with full alarms and app blocking until morning',
+    bullets: [
+      "Sticking to a bedtime routine is the thing that actually gets you to sleep faster. Benji's job is making yours stick.",
+      'You journal at both ends of the night: dreams when you wake up, and how the morning actually went.',
+      "Your apps stay blocked until morning, so your phone can't be the reason you're up.",
+    ],
+    stack: ['React Native', 'Expo', 'TypeScript', 'RevenueCat', 'LocalStorage'],
+    image: '/link-icons/benji.webp',
+    imageFit: 'cover',
   },
   {
     slug: 'geogolf',
@@ -372,7 +372,7 @@ export const projects: Project[] = [
 ];
 
 /** The four rows in the profile's "kyle's top projects" card, in order. */
-export const topProjectSlugs = ['benji', 'geogolf', 'vertebro', 'posture-pomodoro'];
+export const topProjectSlugs = ['builder-battles', 'vertebro', 'benji', 'custom-storybook'];
 
 export const topProjects = topProjectSlugs
   .map((slug) => projects.find((p) => p.slug === slug))
