@@ -35,6 +35,34 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    slug: 'builder-battles',
+    title: 'Builder Battles',
+    status: 'live',
+    url: 'https://www.builderbattles.app',
+    description:
+      'Daily head-to-head app showdowns. Two apps enter the ring; free votes, a paid bonus vote, and X points decide who gets pinned.',
+    shortDescription: 'Daily app vs app fights — votes and X points decide who gets pinned',
+    bullets: [
+      'Every day two apps face off. Visitors vote free, can buy one bonus vote, and tweet for X points.',
+      'Makers put their app in the pool for $10 (or a promo code) and get a scheduled first bout.',
+      'Midnight PT settles the bout. The winner gets pinned on the champ banner.',
+      'Built end to end: checkout, bout scheduling, emails, operator tools, and share cards.',
+    ],
+    stack: [
+      'Next.js',
+      'TypeScript',
+      'Vercel',
+      'Neon',
+      'Drizzle',
+      'Stripe',
+      'PostHog',
+      'Resend',
+    ],
+    image: '/link-icons/builder-battles.webp',
+    imageFit: 'contain',
+    imageBg: '#08080a',
+  },
+  {
     slug: 'benji',
     title: 'Benji',
     status: 'live',
@@ -344,7 +372,7 @@ export const projects: Project[] = [
 ];
 
 /** The four rows in the profile's "kyle's top projects" card, in order. */
-export const topProjectSlugs = ['benji', 'geogolf', 'vertebro', 'posture-pomodoro'];
+export const topProjectSlugs = ['builder-battles', 'vertebro', 'benji', 'custom-storybook'];
 
 export const topProjects = topProjectSlugs
   .map((slug) => projects.find((p) => p.slug === slug))
